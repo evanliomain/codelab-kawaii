@@ -5,3 +5,149 @@
 // --text-color:Main text color, support light and dark theme
 // --background-color:Main background color, support light and dark theme
 // --accent-color: Main accent color
+
+@property --y {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0;
+}
+
+:root {
+  --animation-time: 5s;
+  --animation-time-double: calc(2 * var(--animation-time));
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  display: grid;
+  grid-template-columns: 12rem 12rem 12rem;
+  justify-content: center;
+  min-height: 100vh;
+
+  column-gap: 1rem;
+
+  background-color: #d2afff;
+  place-items: center;
+}
+
+.loader {
+  --y: 0;
+
+  position: relative;
+
+  &::after {
+    position: absolute;
+
+    width: 10em;
+    height: 4em;
+
+    background-color: #0005;
+    border-radius: 50%;
+
+    content: "";
+    inset: calc(100% + 15px) 50%;
+    translate: -50% 0;
+    scale: var(--scale-x) var(--scale-y);
+  }
+
+  &:nth-child(2) {
+    --boule-width: 100px;
+  }
+
+  animation: bouncy var(--animation-time) ease infinite;
+
+  .dot {
+    position: relative;
+
+    width: var(--boule-width, 50px);
+
+    background-color: #4b015e;
+    border-radius: 50%;
+    transform-origin: bottom;
+
+    animation: bouncy var(--animation-time) ease infinite;
+    aspect-ratio: 1;
+    translate: 0 var(--y);
+    scale: 1 1;
+
+    &:nth-child(2) {
+      --boule-width: 100px;
+    }
+  }
+
+  .eyes {
+    --eye-width: 5px;
+    position: absolute;
+
+    width: var(--eye-width);
+
+    color: #fff;
+
+    border-radius: 50%;
+    box-shadow:
+      0 0 5em inset,
+      2em 0 0;
+    aspect-ratio: 1;
+    inset: 35% calc(40% - var(--eye-width));
+  }
+
+  .mouth {
+    --mouth-width: 2em;
+    position: absolute;
+
+    width: var(--mouth-width);
+    height: 0.5em;
+
+    background-color: white;
+
+    animation: oh var(--animation-time-double) ease infinite;
+    inset: 52% calc(52% - var(--mouth-width) / 2);
+  }
+}
+
+@keyframes bouncy {
+  0% {
+    --y: 0;
+  }
+
+  10% {
+    scale: 1.1 0.9;
+
+    --y: 0;
+  }
+
+  50% {
+    scale: 0.9 1.1;
+
+    --y: -10em;
+  }
+
+  100% {
+    --y: 0;
+  }
+}
+
+@keyframes oh {
+  75% {
+    scale: 0.9 2.5;
+
+    border-radius: 50%;
+  }
+
+  100% {
+    scale: 1 1;
+
+    border-radius: 0;
+  }
+}
